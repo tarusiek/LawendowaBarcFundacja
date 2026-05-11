@@ -108,7 +108,7 @@ export function Header() {
               />
             </span>
             <span className="hidden whitespace-nowrap font-display text-[11px] font-semibold text-[#2a1f0e] lg:block">
-              Lawendowa Barć
+              Lawendowa Barć pod Lasem
             </span>
           </Link>
 

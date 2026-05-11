@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nawigacja — opcje</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', sans-serif; background: #f0ebe0; color: #2a1f0e; padding: 32px 20px 80px; }
+
+h1 { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 6px; font-family: 'Lora', serif; }
+.sub { text-align: center; color: #7a6050; font-size: 13px; margin-bottom: 36px; }
+
+.option-wrap {
+  max-width: 960px;
+  margin: 0 auto 28px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 24px rgba(80,40,10,0.10);
+}
+.option-wrap:hover { transform: translateY(-3px); box-shadow: 0 10px 36px rgba(80,40,10,0.16); }
+.option-wrap.selected { border-color: #c4880a; box-shadow: 0 0 0 4px rgba(196,136,10,0.2); }
+
+.option-label {
+  background: #2a1f0e;
+  color: #f0c060;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.option-label .check { display: none; font-size: 14px; }
+.selected .option-label .check { display: block; }
+
+.option-desc {
+  background: white;
+  padding: 12px 20px;
+  font-size: 12.5px;
+  color: #6a5040;
+  border-top: 1px solid rgba(180,130,60,0.12);
+}
+.option-desc strong { color: #2a1f0e; }
+
+/* ============================================
+   NAV A — Szeroki, z akcentem ceglanym i CTA
+   ============================================ */
+.nav-a {
+  background: rgba(250,246,239,0.97);
+  backdrop-filter: blur(16px);
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(90deg, #c4884a, #d4a840, #8a6030) 1;
+  padding: 0 28px;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  min-height: 70px;
+}
+.a-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0;
+}
+.a-logo-box {
+  width: 46px; height: 46px;
+  background: #2a1f0e;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(40,20,0,0.25);
+}
+.a-logo-name {
+  font-family: 'Lora', serif;
+  font-size: 14px; font-weight: 700;
+  color: #2a1f0e; line-height: 1.2;
+}
+.a-logo-sub {
+  font-size: 10px; color: #9a7050;
+  letter-spacing: 0.06em;
+  font-weight: 400;
+}
+.a-nav {
+  display: flex; align-items: center; gap: 2px;
+}
+.a-nav a {
+  font-size: 12px; font-weight: 500; color: #4a3520;
+  padding: 8px 12px; border-radius: 7px; text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  position: relative;
+}
+.a-nav a:hover { background: rgba(196,136,10,0.1); color: #a06820; }
+.a-nav a.active {
+  color: #c4880a; font-weight: 700;
+}
+.a-nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 50%; transform: translateX(-50%);
+  width: 18px; height: 2.5px;
+  background: #c4880a;
+  border-radius: 2px;
+}
+.a-cta {
+  display: flex; align-items: center; padding: 12px 0 12px 16px;
+  border-left: 1px solid rgba(180,130,60,0.2);
+  margin-left: 10px;
+}
+.a-cta-btn {
+  background: #2a1f0e; color: #f0c060;
+  font-size: 11.5px; font-weight: 700;
+  padding: 9px 18px; border-radius: 8px;
+  white-space: nowrap;
+  letter-spacing: 0.02em;
+}
+
+/* honey line decoration below active */
+.a-nav-wrap {
+  display: flex;
+  align-items: center;
+  border-left: 1px solid rgba(180,130,60,0.15);
+  padding-left: 12px;
+  margin-left: 12px;
+}
+
+/* ============================================
+   NAV B — Centrowane logo, split-nav
+   ============================================ */
+.nav-b-wrap {
+  background: rgba(250,246,239,0.97);
+  backdrop-filter: blur(16px);
+}
+.nav-b-top {
+  background: #2a1f0e;
+  padding: 7px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav-b-toptext {
+  font-size: 10px;
+  color: rgba(240,192,96,0.7);
+  letter-spacing: 0.08em;
+}
+.nav-b-topsocial {
+  display: flex; gap: 12px;
+}
+.nav-b-topsocial span {
+  font-size: 10px; color: rgba(240,192,96,0.6);
+  font-weight: 500;
+}
+.nav-b-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 28px;
+  border-bottom: 1px solid rgba(180,130,60,0.15);
+}
+.nav-b-left { display: flex; align-items: center; gap: 4px; }
+.nav-b-right { display: flex; align-items: center; gap: 4px; }
+.nav-b-link {
+  font-size: 12px; font-weight: 500; color: #4a3520;
+  padding: 7px 11px; border-radius: 6px; text-decoration: none;
+}
+.nav-b-link:hover { color: #c4880a; }
+.nav-b-link.active { color: #c4880a; font-weight: 700; }
+.nav-b-center {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 0 20px;
+}
+.nav-b-center-icon {
+  width: 52px; height: 52px;
+  background: #2a1f0e;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 6px 20px rgba(40,20,0,0.3);
+}
+.nav-b-center-name {
+  font-family: 'Lora', serif;
+  font-size: 12px; font-weight: 700; color: #2a1f0e;
+  letter-spacing: -0.01em; white-space: nowrap;
+}
+.nav-b-cta {
+  background: #c4880a; color: white;
+  font-size: 11px; font-weight: 700;
+  padding: 8px 16px; border-radius: 7px;
+  margin-left: 8px;
+}
+
+/* ============================================
+   NAV C — Pełna szerokość z paskiem lawendy
+   ============================================ */
+.nav-c-wrap {
+  background: #1e1408;
+}
+.nav-c-top {
+  background: linear-gradient(90deg, #8a5fa3, #6b4a8a, #9b6fb4);
+  padding: 5px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-c-toptext { font-size: 10px; color: rgba(255,255,255,0.75); letter-spacing: 0.06em; }
+.nav-c-toplink { font-size: 10px; color: rgba(255,255,255,0.85); font-weight: 600; }
+.nav-c-main {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; min-height: 66px;
+}
+.nav-c-logo { display: flex; align-items: center; gap: 14px; }
+.nav-c-logo-box {
+  width: 48px; height: 48px;
+  background: #f0c060;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+}
+.nav-c-logo-name {
+  font-family: 'Lora', serif;
+  font-size: 14px; font-weight: 700; color: #f5ead0; line-height: 1.2;
+}
+.nav-c-logo-sub { font-size: 10px; color: rgba(245,234,208,0.5); letter-spacing: 0.06em; }
+.nav-c-links { display: flex; align-items: center; gap: 2px; }
+.nav-c-link {
+  font-size: 12px; font-weight: 500; color: rgba(245,234,208,0.7);
+  padding: 8px 12px; border-radius: 7px; text-decoration: none;
+  transition: all 0.15s;
+}
+.nav-c-link:hover { color: #f0c060; background: rgba(255,255,255,0.06); }
+.nav-c-link.active { color: #f0c060; background: rgba(240,192,96,0.12); font-weight: 600; }
+.nav-c-cta {
+  background: #f0c060; color: #1e1408;
+  font-size: 11.5px; font-weight: 700;
+  padding: 9px 18px; border-radius: 8px;
+  margin-left: 10px;
+}
+.nav-c-bottom {
+  height: 2px;
+  background: linear-gradient(90deg, #c4880a 0%, #f0c060 30%, #5d8850 60%, #7b5fa3 100%);
+}
+
+/* selected state */
+.cta-row { text-align:center; color:#7a6050; font-size:13px; margin-top:12px; }
+</style>
+</head>
+<body>
+
+<h1>Jaka nawigacja?</h1>
+<p class="sub">Kliknij wariant który wolisz — możemy też połączyć elementy</p>
+
+<!-- ======== OPTION A ======== -->
+<div class="option-wrap" data-choice="a" onclick="sel(this)">
+  <div class="option-label">
+    A — Elegancka z akcentem złota i przyciskiem CTA
+    <span class="check">✓ Wybrano</span>
+  </div>
+
+  <div class="nav-a">
+    <div class="a-logo">
+      <div class="a-logo-box">🐝</div>
+      <div>
+        <div class="a-logo-name">Lawendowa Barć pod Lasem</div>
+        <div class="a-logo-sub">Fundacja edukacyjno-ekologiczna</div>
+      </div>
+    </div>
+
+    <div class="a-nav-wrap">
+      <nav class="a-nav">
+        <a href="#" class="active">Start</a>
+        <a href="#">Pasieka</a>
+        <a href="#">Ogród</a>
+        <a href="#">Warsztaty</a>
+        <a href="#">Projekty</a>
+        <a href="#">Wolontariat</a>
+        <a href="#">Wspieraj</a>
+        <a href="#">Kontakt</a>
+      </nav>
+    </div>
+
+    <div class="a-cta">
+      <div class="a-cta-btn">🍯 Wesprzyj nas</div>
+    </div>
+  </div>
+
+  <div class="option-desc">
+    Kremowe tło, złota linia pod aktywnym linkiem, ciemny przycisk CTA. <strong>Ciepły i czytelny</strong> — do każdego tła sekcji.
+  </div>
+</div>
+
+<!-- ======== OPTION B ======== -->
+<div class="option-wrap" data-choice="b" onclick="sel(this)">
+  <div class="option-label">
+    B — Centralne logo z paskiem informacyjnym u góry
+    <span class="check">✓ Wybrano</span>
+  </div>
+
+  <div class="nav-b-wrap">
+    <div class="nav-b-top">
+      <span class="nav-b-toptext">📍 Chajczyny 39, 97-425 Zelów &nbsp;·&nbsp; 📞 605 088 302</span>
+      <div class="nav-b-topsocial">
+        <span>Facebook</span>
+        <span>Instagram</span>
+        <span>📧 Email</span>
+      </div>
+    </div>
+    <div class="nav-b-main">
+      <nav class="nav-b-left">
+        <a href="#" class="nav-b-link active">Start</a>
+        <a href="#" class="nav-b-link">Pasieka</a>
+        <a href="#" class="nav-b-link">Ogród</a>
+        <a href="#" class="nav-b-link">Warsztaty</a>
+      </nav>
+
+      <div class="nav-b-center">
+        <div class="nav-b-center-icon">🐝</div>
+        <div class="nav-b-center-name">Lawendowa Barć</div>
+      </div>
+
+      <nav class="nav-b-right">
+        <a href="#" class="nav-b-link">Projekty</a>
+        <a href="#" class="nav-b-link">Wolontariat</a>
+        <a href="#" class="nav-b-link">Kontakt</a>
+        <div class="nav-b-cta">Wesprzyj 🍯</div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="option-desc">
+    Czarny pasek z adresem i socials u góry, <strong>logo wycentrowane</strong> z linkami po obu stronach. Eleganckie jak boutique hotel lub winery.
+  </div>
+</div>
+
+<!-- ======== OPTION C ======== -->
+<div class="option-wrap" data-choice="c" onclick="sel(this)">
+  <div class="option-label">
+    C — Ciemna z lawendowym paskiem i gradientem marki
+    <span class="check">✓ Wybrano</span>
+  </div>
+
+  <div class="nav-c-wrap">
+    <div class="nav-c-top">
+      <span class="nav-c-toptext">🌿 Fundacja edukacyjno-ekologiczna · Chajczyny, powiat bełchatowski</span>
+      <span class="nav-c-toplink">📞 Zadzwoń do nas →</span>
+    </div>
+    <div class="nav-c-main">
+      <div class="nav-c-logo">
+        <div class="nav-c-logo-box">🐝</div>
+        <div>
+          <div class="nav-c-logo-name">Lawendowa Barć pod Lasem</div>
+          <div class="nav-c-logo-sub">Fundacja edukacyjno-ekologiczna</div>
+        </div>
+      </div>
+
+      <nav class="nav-c-links">
+        <a href="#" class="nav-c-link active">Start</a>
+        <a href="#" class="nav-c-link">Pasieka</a>
+        <a href="#" class="nav-c-link">Ogród</a>
+        <a href="#" class="nav-c-link">Warsztaty</a>
+        <a href="#" class="nav-c-link">Projekty</a>
+        <a href="#" class="nav-c-link">Wolontariat</a>
+        <a href="#" class="nav-c-link">Kontakt</a>
+        <div class="nav-c-cta">Wesprzyj 🍯</div>
+      </nav>
+    </div>
+    <div class="nav-c-bottom"></div>
+  </div>
+
+  <div class="option-desc">
+    Ciemne tło z <strong>lawendowym paskiem</strong> u góry, logo ze złotą ikoną, gradient marki na dole. Najbardziej premium i wyróżniające się.
+  </div>
+</div>
+
+<p class="cta-row">Możesz też połączyć: np. <strong>ciemne tło z C</strong> + <strong>centralny układ z B</strong> — powiedz mi</p>
+
+<script>
+function sel(el) {
+  document.querySelectorAll('.option-wrap').forEach(e => e.classList.remove('selected'));
+  el.classList.add('selected');
+  const choice = el.dataset.choice;
+  const text = el.querySelector('.option-label').textContent.trim();
+  if (window.__claudeCompanionLog) window.__claudeCompanionLog({ type: 'click', choice, text });
+  document.dispatchEvent(new CustomEvent('companion-select', { detail: { choice, text } }));
+}
+</script>
+</body>
+</html>

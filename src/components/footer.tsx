@@ -1,75 +1,107 @@
 import Link from "next/link";
-import { Camera, Mail, MapPin, Phone, Share2 } from "lucide-react";
-import { footerLinks, foundation } from "@/lib/site-data";
+import { foundation } from "@/lib/site-data";
 
 export function Footer() {
   return (
-    <footer className="border-t border-stone-200 bg-[#273528] text-[#f8f3e7]">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.2fr_0.8fr_0.8fr] lg:px-8">
+    <footer className="relative overflow-hidden bg-[#1a1008] text-[#c8b898]">
+      {/* Gradient accent top */}
+      <div
+        className="h-0.5 w-full"
+        style={{
+          background: "linear-gradient(90deg, #c4880a, #f0c060, #4a7830, #7b5fa3)",
+        }}
+      />
+
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 py-14 sm:px-6 lg:grid-cols-[1.4fr_1fr_1fr] lg:px-8">
+        {/* Brand */}
         <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#d4b85f]">
-            {foundation.shortName}
+          <p className="font-display text-xl font-semibold text-[#f0d090]">
+            Lawendowa Barć pod Lasem
           </p>
-          <p className="mt-4 max-w-md text-2xl font-semibold leading-tight">
-            Miejsce, w którym pasieka, lawenda i edukacja rosną razem.
+          <p className="mt-4 max-w-md text-sm leading-7 text-[rgba(200,184,152,0.7)]">
+            Fundacja edukacyjno-ekologiczna w Chajczynach. Pasieka, lawenda,
+            ogród permakulturowy i warsztaty dla dzieci, dorosłych i całej okolicy.
           </p>
-          <p className="mt-4 max-w-lg text-sm leading-6 text-stone-200">
-            Odwiedziny i warsztaty umawiamy telefonicznie. Chętnie odpowiemy na
-            pytania szkół, rodzin, grup zorganizowanych i osób, które chcą wesprzeć fundację.
+          <p className="mt-5 text-xs leading-6 text-[rgba(200,184,152,0.38)]">
+            KRS {foundation.krs} · NIP {foundation.nip} · REGON {foundation.regon}
+            <br />
+            Nr konta: {foundation.bankAccount}
           </p>
         </div>
 
+        {/* Kontakt */}
         <div>
-          <p className="font-semibold">Kontakt</p>
-          <ul className="mt-4 space-y-3 text-sm text-stone-200">
-            <li className="flex gap-3">
-              <MapPin aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-[#d4b85f]" />
-              {foundation.address}
-            </li>
+          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#f0c060]">
+            Kontakt
+          </p>
+          <ul className="mt-4 space-y-3 text-sm text-[rgba(200,184,152,0.75)]">
+            <li>📍 {foundation.address}</li>
             <li>
-              <a className="flex gap-3 hover:text-white" href={`mailto:${foundation.email}`}>
-                <Mail aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-[#d4b85f]" />
-                {foundation.email}
+              <a
+                href={`mailto:${foundation.email}`}
+                className="transition-colors hover:text-[#f0d090]"
+              >
+                📧 {foundation.email}
               </a>
             </li>
-            <li className="flex gap-3">
-              <Phone aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-[#d4b85f]" />
-              <span>
-                {foundation.phoneSylwia} / {foundation.phoneMieczyslaw}
-              </span>
+            <li>
+              📞 {foundation.phoneSylwia} / {foundation.phoneMieczyslaw}
             </li>
           </ul>
+          <div className="mt-5 flex gap-3">
+            <a
+              href={foundation.facebook}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Facebook"
+              className="grid h-9 w-9 place-items-center rounded-lg border border-[rgba(255,255,255,0.1)] text-sm text-[rgba(200,184,152,0.7)] transition hover:border-[rgba(240,192,96,0.3)] hover:text-[#f0c060]"
+            >
+              f
+            </a>
+            <a
+              href={foundation.instagram}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className="grid h-9 w-9 place-items-center rounded-lg border border-[rgba(255,255,255,0.1)] text-sm text-[rgba(200,184,152,0.7)] transition hover:border-[rgba(240,192,96,0.3)] hover:text-[#f0c060]"
+            >
+              IG
+            </a>
+          </div>
         </div>
 
+        {/* Linki */}
         <div>
-          <p className="font-semibold">Szybkie linki</p>
-          <div className="mt-4 grid gap-2 text-sm text-stone-200">
-            {footerLinks.map((link) => (
-              <Link key={link.href} className="hover:text-white" href={link.href}>
+          <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#f0c060]">
+            Szybkie linki
+          </p>
+          <div className="mt-4 grid gap-2 text-sm text-[rgba(200,184,152,0.75)]">
+            {[
+              { href: "/o-fundacji", label: "O fundacji" },
+              { href: "/pasieka", label: "Pasieka" },
+              { href: "/ogrod", label: "Ogród i lawenda" },
+              { href: "/edukacja-i-warsztaty", label: "Warsztaty" },
+              { href: "/wolontariat", label: "Wolontariat" },
+              { href: "/wspieraj", label: "Wesprzyj nas" },
+              { href: "/kontakt", label: "Kontakt" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="transition-colors hover:text-[#f0d090]"
+              >
                 {link.label}
               </Link>
             ))}
           </div>
-          <div className="mt-6 flex gap-3">
-            <a
-              href={foundation.facebook}
-              className="grid h-10 w-10 place-items-center rounded-md border border-white/15 text-stone-100 hover:bg-white/10"
-              aria-label="Facebook Lawendowa Barć pod Lasem"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Share2 aria-hidden className="h-4 w-4" />
-            </a>
-            <a
-              href={foundation.instagram}
-              className="grid h-10 w-10 place-items-center rounded-md border border-white/15 text-stone-100 hover:bg-white/10"
-              aria-label="Instagram Lawendowa Barć pod Lasem"
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Camera aria-hidden className="h-4 w-4" />
-            </a>
-          </div>
+        </div>
+      </div>
+
+      {/* Copy */}
+      <div className="border-t border-[rgba(255,255,255,0.06)] px-4 py-6 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-2 text-[11px] text-[rgba(200,184,152,0.38)] sm:flex-row">
+          <span>© 2025 Lawendowa Barć pod Lasem. Wszelkie prawa zastrzeżone.</span>
+          <span>Chajczyny, powiat bełchatowski</span>
         </div>
       </div>
     </footer>

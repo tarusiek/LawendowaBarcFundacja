@@ -1,15 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fffdf8;
-  --foreground: #243127;
+  --background: #faf6ef;
+  --foreground: #1e1408;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  --font-display: var(--font-lora), Georgia, "Times New Roman", serif;
+
+  /* Honey */
+  --color-honey: #c4880a;
+  --color-honey-light: #f0c060;
+  --color-honey-pale: #fdf3dc;
+
+  /* Dark */
+  --color-dark: #1e1408;
+  --color-dark-mid: #2a1f0e;
+
+  /* Forest */
+  --color-forest: #2a4a1a;
+  --color-forest-mid: #4a7830;
+
+  /* Brand */
+  --color-lavender: #7b5fa3;
+  --color-brick-accent: #c4844a;
+
+  /* Backgrounds */
+  --color-cream: #faf6ef;
+  --color-warm-white: #fffdf8;
+  --color-stone-bg: #f0ebe0;
 }
 
 body {
@@ -17,13 +41,23 @@ body {
   color: var(--foreground);
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-lora), Georgia, "Times New Roman", serif;
+}
+
+.font-display {
+  font-family: var(--font-lora), Georgia, "Times New Roman", serif;
+}
+
 ::selection {
-  background: #f1cf63;
-  color: #243127;
+  background: #f0c060;
+  color: #1e1408;
 }
 
 a,
 button {
-  outline-color: #7b5fa3;
+  outline-color: #c4880a;
   outline-offset: 3px;
 }

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kierunek designu</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #faf9f7; color: #1a1a1a; min-height: 100vh; padding: 32px 24px 80px; }
+  h1 { font-size: 22px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+  .sub { text-align: center; color: #666; font-size: 14px; margin-bottom: 36px; }
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+  .card { border-radius: 16px; overflow: hidden; border: 2.5px solid transparent; cursor: pointer; transition: all 0.2s; box-shadow: 0 2px 16px rgba(0,0,0,0.08); }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(0,0,0,0.13); }
+  .card.selected { border-color: #324234; box-shadow: 0 0 0 4px rgba(50,66,52,0.18); }
+  .card-preview { height: 280px; position: relative; overflow: hidden; }
+  .card-info { padding: 20px; background: white; }
+  .card-info h2 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .card-info p { font-size: 13px; color: #555; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* === OPTION A: Organic Warmth === */
+  .preview-a { background: #fff8ed; }
+  .a-nav { background: rgba(255,252,245,0.95); backdrop-filter: blur(8px); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eedfc0; }
+  .a-logo { display: flex; align-items: center; gap: 10px; }
+  .a-logo-icon { width: 36px; height: 36px; background: #f4a820; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+  .a-logo-text { font-size: 11px; font-weight: 700; color: #5c3d1e; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.3; }
+  .a-nav-links { display: flex; gap: 14px; }
+  .a-nav-link { font-size: 11px; color: #6b4c2a; font-weight: 500; }
+  .a-hero { padding: 24px 20px 20px; }
+  .a-tag { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: #c47c20; font-weight: 700; margin-bottom: 8px; }
+  .a-title { font-family: Georgia, serif; font-size: 22px; color: #3d2510; line-height: 1.25; font-weight: 700; margin-bottom: 10px; }
+  .a-desc { font-size: 11px; color: #6b5040; line-height: 1.6; margin-bottom: 14px; }
+  .a-btns { display: flex; gap: 8px; }
+  .a-btn-primary { background: #3d2510; color: #fff; font-size: 10px; padding: 8px 14px; border-radius: 6px; font-weight: 700; }
+  .a-btn-sec { background: transparent; border: 1px solid #c9a870; color: #5c3d1e; font-size: 10px; padding: 8px 14px; border-radius: 6px; font-weight: 600; }
+  .a-honey { position: absolute; bottom: 0; right: 0; width: 100px; height: 120px; }
+  .hex { fill: none; stroke: #d4942040; stroke-width: 1; }
+  .a-blob { position: absolute; bottom: 8px; right: 10px; width: 90px; height: 90px; background: radial-gradient(circle at 40% 40%, #f9c95c, #e08020); border-radius: 50% 45% 55% 40%; opacity: 0.8; }
+
+  /* === OPTION B: Premium Botanical === */
+  .preview-b { background: #f5f2ee; }
+  .b-nav { background: #fff; padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #e8e2da; }
+  .b-logo { font-family: Georgia, serif; font-size: 13px; color: #2a3d2e; font-weight: 700; letter-spacing: -0.01em; }
+  .b-logo span { color: #7b5fa3; }
+  .b-nav-links { display: flex; gap: 16px; }
+  .b-nav-link { font-size: 10px; color: #555; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; }
+  .b-hero { padding: 26px 20px 0; display: grid; grid-template-columns: 1fr 0.7fr; gap: 16px; align-items: center; }
+  .b-tag { font-size: 9px; text-transform: uppercase; letter-spacing: 0.15em; color: #7b5fa3; font-weight: 700; margin-bottom: 8px; }
+  .b-title { font-family: Georgia, serif; font-size: 18px; color: #1e2d1e; line-height: 1.3; font-weight: 400; margin-bottom: 10px; }
+  .b-desc { font-size: 10px; color: #5a5a5a; line-height: 1.6; margin-bottom: 14px; }
+  .b-btn { display: inline-flex; align-items: center; gap: 6px; background: #2a3d2e; color: white; font-size: 10px; padding: 8px 14px; border-radius: 4px; font-weight: 600; }
+  .b-panel { background: linear-gradient(135deg, #9dbf7a, #5d8850, #2e4d20); border-radius: 12px; height: 120px; position: relative; overflow: hidden; display: flex; align-items: flex-end; padding: 10px; }
+  .b-panel-text { font-size: 9px; color: rgba(255,255,255,0.85); line-height: 1.4; font-weight: 500; }
+  .b-leaf1 { position: absolute; top: -10px; right: -5px; width: 70px; height: 90px; background: white; opacity: 0.12; border-radius: 50% 5% 50% 5%; transform: rotate(-30deg); }
+  .b-leaf2 { position: absolute; top: 20px; right: 15px; width: 50px; height: 70px; background: white; opacity: 0.08; border-radius: 50% 5% 50% 5%; transform: rotate(-15deg); }
+  .b-stats { display: flex; gap: 0; border-top: 1px solid #e0d8ce; margin: 0 20px; }
+  .b-stat { flex: 1; padding: 10px 0; text-align: center; border-right: 1px solid #e0d8ce; }
+  .b-stat:last-child { border-right: none; }
+  .b-stat-val { font-family: Georgia, serif; font-size: 18px; color: #2a3d2e; font-weight: 700; display: block; }
+  .b-stat-label { font-size: 9px; color: #888; }
+
+  /* === OPTION C: Immersive Editorial === */
+  .preview-c { background: #1a2818; }
+  .c-nav { background: rgba(20,35,18,0.95); backdrop-filter: blur(12px); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .c-logo-text { font-size: 11px; font-weight: 700; color: #f0ead0; letter-spacing: 0.1em; text-transform: uppercase; }
+  .c-nav-links { display: flex; gap: 14px; }
+  .c-nav-link { font-size: 10px; color: rgba(255,255,255,0.55); font-weight: 500; }
+  .c-hero { height: 190px; background: linear-gradient(160deg, #2c4a28 0%, #1a2818 50%, #0e1a0c 100%); position: relative; overflow: hidden; padding: 24px 20px; display: flex; flex-direction: column; justify-content: flex-end; }
+  .c-hex-bg { position: absolute; inset: 0; opacity: 0.06; }
+  .c-glow { position: absolute; top: 0; right: 0; width: 180px; height: 180px; background: radial-gradient(circle, rgba(212,184,95,0.35) 0%, transparent 70%); }
+  .c-tag { font-size: 9px; text-transform: uppercase; letter-spacing: 0.18em; color: #d4b85f; font-weight: 700; margin-bottom: 6px; position: relative; }
+  .c-title { font-family: Georgia, serif; font-size: 19px; color: #f0ead0; line-height: 1.25; font-weight: 400; position: relative; margin-bottom: 14px; }
+  .c-btns { display: flex; gap: 8px; position: relative; }
+  .c-btn-primary { background: #d4b85f; color: #1a2818; font-size: 10px; padding: 8px 14px; border-radius: 6px; font-weight: 700; }
+  .c-btn-sec { border: 1px solid rgba(255,255,255,0.25); color: rgba(255,255,255,0.8); font-size: 10px; padding: 8px 14px; border-radius: 6px; font-weight: 600; }
+
+  /* Selected indicator */
+  .selected-indicator { display: none; position: absolute; top: 12px; right: 12px; width: 26px; height: 26px; background: #324234; border-radius: 50%; align-items: center; justify-content: center; color: white; font-size: 14px; }
+  .card.selected .selected-indicator { display: flex; }
+  .card-preview { position: relative; }
+
+  .cta-row { text-align: center; margin-top: 32px; color: #666; font-size: 13px; }
+  .cta-row strong { color: #324234; }
+</style>
+</head>
+<body>
+
+<h1>Jaki kierunek wizualny?</h1>
+<p class="sub">Kliknij kartę, która najbardziej Ci odpowiada — lub opisz mi co Ci się podoba</p>
+
+<div class="cards">
+
+  <!-- OPTION A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-preview preview-a">
+      <div class="selected-indicator">✓</div>
+      <!-- Nav -->
+      <div class="a-nav">
+        <div class="a-logo">
+          <div class="a-logo-icon">🐝</div>
+          <div class="a-logo-text">Lawendowa Barć<br>pod Lasem</div>
+        </div>
+        <div class="a-nav-links">
+          <span class="a-nav-link">Pasieka</span>
+          <span class="a-nav-link">Ogród</span>
+          <span class="a-nav-link">Warsztaty</span>
+        </div>
+      </div>
+      <!-- Hero -->
+      <div class="a-hero" style="position:relative;">
+        <div class="a-tag">Miód · Lawenda · Edukacja</div>
+        <div class="a-title">Tam, gdzie lawenda spotyka las</div>
+        <div class="a-desc">Fundacja, która uczy troski o naturę przez kontakt z pszczołami i ogrodem.</div>
+        <div class="a-btns">
+          <div class="a-btn-primary">Odkryj pasiekę</div>
+          <div class="a-btn-sec">Umów wizytę</div>
+        </div>
+        <!-- Honey blob deco -->
+        <div class="a-blob"></div>
+        <svg class="a-honey" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="25,5 75,5 95,40 75,75 25,75 5,40" class="hex"/>
+          <polygon points="50,30 80,30 95,55 80,80 50,80 35,55" class="hex" fill="rgba(212,148,32,0.08)" stroke="none"/>
+          <polygon points="10,60 40,60 55,85 40,110 10,110 -5,85" class="hex"/>
+        </svg>
+      </div>
+    </div>
+    <div class="card-info">
+      <span class="badge" style="background:#fff3d6;color:#b87020;">A · Organiczne ciepło</span>
+      <h2>Miód, drewno i słońce</h2>
+      <p>Ciepłe bursztyny i brązy, organiczne kształty, ręczna faktura. Jak strona rzemieślniczej pasieki z duszą. Przyjazna, swojska, autentyczna.</p>
+    </div>
+  </div>
+
+  <!-- OPTION B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-preview preview-b">
+      <div class="selected-indicator">✓</div>
+      <!-- Nav -->
+      <div class="b-nav">
+        <div class="b-logo">Lawendowa <span>Barć</span></div>
+        <div class="b-nav-links">
+          <span class="b-nav-link">Pasieka</span>
+          <span class="b-nav-link">Ogród</span>
+          <span class="b-nav-link">Warsztaty</span>
+        </div>
+      </div>
+      <!-- Hero -->
+      <div class="b-hero">
+        <div>
+          <div class="b-tag">Fundacja Edukacyjno-Ekologiczna</div>
+          <div class="b-title">Małe kroki, które naprawdę zmieniają otoczenie</div>
+          <div class="b-desc">Pasieka, ogród permakulturowy i warsztaty dla dzieci, dorosłych i całej okolicy.</div>
+          <div class="b-btn">Zobacz więcej →</div>
+        </div>
+        <div class="b-panel">
+          <div class="b-leaf1"></div>
+          <div class="b-leaf2"></div>
+          <div class="b-panel-text">Lawendowe pole, pasieka i las tworzą naturalną przestrzeń spotkań</div>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="b-stats">
+        <div class="b-stat"><span class="b-stat-val">2019</span><span class="b-stat-label">rok założenia</span></div>
+        <div class="b-stat"><span class="b-stat-val">15+</span><span class="b-stat-label">lat z pszczołami</span></div>
+        <div class="b-stat"><span class="b-stat-val">1000+</span><span class="b-stat-label">krzaków lawendy</span></div>
+      </div>
+    </div>
+    <div class="card-info">
+      <span class="badge" style="background:#eef4e8;color:#3d6030;">B · Premium Natura</span>
+      <h2>Botaniczny minimalizm</h2>
+      <p>Czyste linie, stonowane zielenie i fiolety, elegancka typografia. Wygląda drogo i nowocześnie — jak strona nagradzanej fundacji lub boutique eco-marki.</p>
+    </div>
+  </div>
+
+  <!-- OPTION C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-preview preview-c">
+      <div class="selected-indicator" style="background:#d4b85f;color:#1a2818;">✓</div>
+      <!-- Nav -->
+      <div class="c-nav">
+        <div class="c-logo-text">🌿 Lawendowa Barć</div>
+        <div class="c-nav-links">
+          <span class="c-nav-link">Pasieka</span>
+          <span class="c-nav-link">Ogród</span>
+          <span class="c-nav-link">Warsztaty</span>
+        </div>
+      </div>
+      <!-- Hero -->
+      <div class="c-hero">
+        <div class="c-hex-bg">
+          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="hx" x="0" y="0" width="40" height="46" patternUnits="userSpaceOnUse">
+                <path d="M20 2L38 12V32L20 42L2 32V12Z" fill="none" stroke="white" stroke-width="0.7"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#hx)"/>
+          </svg>
+        </div>
+        <div class="c-glow"></div>
+        <div class="c-tag">Miód · Lawenda · Serce do przyrody</div>
+        <div class="c-title">Tam, gdzie bzyczą pszczoły, a lawenda pachnie lasem</div>
+        <div class="c-btns">
+          <div class="c-btn-primary">Odkryj fundację</div>
+          <div class="c-btn-sec">Umów wizytę</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-info">
+      <span class="badge" style="background:#f0ead0;color:#5c4a1e;">C · Immersive / Editorial</span>
+      <h2>Leśna głębia i złoto miodu</h2>
+      <p>Ciemne tło, złoto jak plaster miodu, pełnoekranowe wrażenia. Jak strona premium whisky lub haute artisan. Bardzo unikalne — odróżnia się od wszystkich fundacji w Polsce.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="cta-row">Możesz wybrać jeden kierunek lub powiedzieć mi co chcesz <strong>połączyć</strong></div>
+
+<script>
+function toggleSelect(el) {
+  const cards = document.querySelectorAll('.card');
+  cards.forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+
+  const choice = el.dataset.choice;
+  const text = el.querySelector('h2').textContent;
+
+  if (window.__claudeCompanionLog) {
+    window.__claudeCompanionLog({ type: 'click', choice, text });
+  }
+
+  // Also try to use the helper script approach
+  const event = new CustomEvent('companion-select', { detail: { choice, text } });
+  document.dispatchEvent(event);
+}
+</script>
+
+</body>
+</html>

@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
+import { BrickDivider } from "@/components/brick-divider";
 import { DocumentCard } from "@/components/document-card";
 import { FeatureBand } from "@/components/feature-band";
 import { SectionIntro } from "@/components/section-intro";
 import { VisualPanel } from "@/components/visual-panel";
 import { documents, foundation, pageCards } from "@/lib/site-data";
 
-export const metadata: Metadata = {
-  title: "O fundacji",
-};
+export const metadata: Metadata = { title: "O fundacji" };
 
 export default function AboutPage() {
   return (
     <>
-      <section className="bg-[#fff8ea]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-24">
+      {/* Hero */}
+      <section className="bg-[#f5ede0]">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8 lg:py-24">
           <SectionIntro
             eyebrow="O fundacji"
             title="Z miłości do pszczół, lawendy i życia blisko natury."
@@ -26,16 +26,20 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-[#fffdf8]">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+      <BrickDivider />
+
+      {/* Historia */}
+      <section className="bg-[#faf6ef]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-4 py-20 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:px-8">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-[#7b5fa3]">
+            <p className="flex items-center gap-2.5 text-[10.5px] font-bold uppercase tracking-[0.16em] text-[#c4880a]">
+              <span className="inline-block h-px w-6 bg-[rgba(196,136,10,0.4)]" />
               Historia
             </p>
-            <h2 className="mt-3 text-3xl font-semibold leading-tight text-[#243127]">
+            <h2 className="mt-4 text-3xl font-semibold leading-tight text-[#1e1408]">
               Od pasieki przy lesie do centrum edukacji ekologicznej.
             </h2>
-            <div className="mt-5 space-y-4 text-lg leading-8 text-stone-700">
+            <div className="mt-5 space-y-4 text-base leading-8 text-[#6a5040]">
               <p>
                 Sylwia i Mieczysław Łabędzcy od lat rozwijają miejsce, w którym
                 pszczoły, zioła i lawenda są częścią codziennej pracy.
@@ -46,48 +50,67 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
+          <div className="grid gap-5 sm:grid-cols-3">
             {pageCards.mission.map((card) => (
-              <FeatureBand key={card.title} title={card.title} text={card.text} icon={card.icon} />
+              <FeatureBand
+                key={card.title}
+                title={card.title}
+                text={card.text}
+                icon={card.icon}
+              />
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-[#f4efe3]">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:px-8">
-          <div className="rounded-lg bg-white p-6 shadow-sm">
-            <h2 className="text-2xl font-semibold text-[#243127]">Dane fundacji</h2>
-            <dl className="mt-6 grid gap-4 text-sm">
+      <BrickDivider />
+
+      {/* Dane i dokumenty — dark brick */}
+      <section
+        className="relative overflow-hidden bg-[#3a2510]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 33px, rgba(0,0,0,0.3) 33px, rgba(0,0,0,0.3) 35px), repeating-linear-gradient(90deg, transparent, transparent 65px, rgba(0,0,0,0.18) 65px, rgba(0,0,0,0.18) 67px)`,
+        }}
+      >
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-20 sm:px-6 lg:grid-cols-2 lg:px-8">
+          {/* Dane */}
+          <div className="rounded-xl border border-[rgba(255,255,255,0.1)] bg-[rgba(255,255,255,0.06)] p-8 backdrop-blur-sm">
+            <h2 className="text-xl font-semibold text-[#f5ead0]">Dane fundacji</h2>
+            <dl className="mt-6 grid gap-5 text-sm">
               <div>
-                <dt className="font-semibold text-stone-500">Nazwa</dt>
-                <dd className="mt-1 text-base text-[#243127]">{foundation.fullName}</dd>
+                <dt className="font-semibold text-[#f0c060]">Nazwa</dt>
+                <dd className="mt-1 text-base text-[rgba(245,234,208,0.85)]">
+                  {foundation.fullName}
+                </dd>
               </div>
               <div>
-                <dt className="font-semibold text-stone-500">Adres</dt>
-                <dd className="mt-1 text-base text-[#243127]">{foundation.address}</dd>
+                <dt className="font-semibold text-[#f0c060]">Adres</dt>
+                <dd className="mt-1 text-base text-[rgba(245,234,208,0.85)]">
+                  {foundation.address}
+                </dd>
               </div>
               <div className="grid gap-4 sm:grid-cols-3">
-                <div>
-                  <dt className="font-semibold text-stone-500">KRS</dt>
-                  <dd className="mt-1 font-mono text-base text-[#243127]">{foundation.krs}</dd>
-                </div>
-                <div>
-                  <dt className="font-semibold text-stone-500">NIP</dt>
-                  <dd className="mt-1 font-mono text-base text-[#243127]">{foundation.nip}</dd>
-                </div>
-                <div>
-                  <dt className="font-semibold text-stone-500">REGON</dt>
-                  <dd className="mt-1 font-mono text-base text-[#243127]">{foundation.regon}</dd>
-                </div>
+                {[
+                  { label: "KRS", value: foundation.krs },
+                  { label: "NIP", value: foundation.nip },
+                  { label: "REGON", value: foundation.regon },
+                ].map(({ label, value }) => (
+                  <div key={label}>
+                    <dt className="font-semibold text-[#f0c060]">{label}</dt>
+                    <dd className="mt-1 font-mono text-base text-[rgba(245,234,208,0.85)]">
+                      {value}
+                    </dd>
+                  </div>
+                ))}
               </div>
             </dl>
           </div>
+
+          {/* Dokumenty */}
           <div>
-            <h2 className="text-2xl font-semibold text-[#243127]">Dokumenty</h2>
-            <p className="mt-3 text-base leading-7 text-stone-700">
-              Poniższe miejsca są przygotowane pod skany i pliki PDF, które można
-              dodać w kolejnej aktualizacji strony.
+            <h2 className="text-xl font-semibold text-[#f5ead0]">Dokumenty</h2>
+            <p className="mt-3 text-sm leading-7 text-[rgba(245,234,208,0.6)]">
+              Poniższe miejsca są przygotowane pod skany i pliki PDF.
             </p>
             <div className="mt-6 grid gap-4">
               {documents.map((document) => (

@@ -126,7 +126,7 @@ export function Header() {
               href="/wspieraj"
               className="ml-3 inline-flex items-center gap-1.5 rounded-md bg-[#1e1408] px-4 py-2 text-sm font-semibold text-[#f0c060] shadow-sm transition hover:bg-[#2a1f0e]"
             >
-              Wesprzyj 🍯
+              Wesprzyj
             </Link>
           </nav>
 
